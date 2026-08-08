@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Log in &middot; Stockroom</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body class="auth-body">
+  <div class="auth-shell">
+    <div class="auth-card">
+      <div class="brand auth-brand">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" width="26" height="26" fill="none">
+            <path d="M4 9.5 16 4l12 5.5-12 5.5-12-5.5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M4 9.5V22l12 5.5V15" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M28 9.5V22l-12 5.5" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <div class="brand-copy">
+          <span class="brand-name">Stockroom</span>
+          <span class="brand-sub">Inventory Control</span>
+        </div>
+      </div>
+
+      <h1 class="auth-title">Welcome back</h1>
+      <p class="auth-sub">Log in with your Gmail to manage your inventory.</p>
+
+      <form id="login-form" class="auth-form">
+        <label>Email<input name="email" id="login-email" type="email" placeholder="you@gmail.com" autocomplete="email" required /></label>
+        <label>Password<input name="password" id="login-password" type="password" autocomplete="current-password" required /></label>
+        <label class="checkbox-row"><input type="checkbox" id="login-remember" /> Remember me for 30 days</label>
+        <button type="submit" class="btn-primary full">Log in</button>
+      </form>
+      <div id="login-message" class="message" role="status"></div>
+
+      <p class="auth-switch">Don't have an account? <a href="/register.html">Register here</a></p>
+    </div>
+  </div>
+  <script src="/auth-client.js"></script>
+</body>
+</html>

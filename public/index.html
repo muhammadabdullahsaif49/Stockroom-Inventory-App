@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stockroom &middot; Inventory &amp; Stock Management</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" width="22" height="22" fill="none">
+            <path d="M4 9.5 16 4l12 5.5-12 5.5-12-5.5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M4 9.5V22l12 5.5V15" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M28 9.5V22l-12 5.5" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <div class="brand-copy">
+          <span class="brand-name">Stockroom</span>
+          <span class="brand-sub">Inventory Control</span>
+        </div>
+      </div>
+
+      <nav class="side-nav" aria-label="Primary">
+        <button type="button" data-section="dashboard" class="active">
+          <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="2.5" width="6.5" height="6.5" rx="1.2"/><rect x="11" y="2.5" width="6.5" height="4.5" rx="1.2"/><rect x="11" y="9.5" width="6.5" height="8" rx="1.2"/><rect x="2.5" y="11" width="6.5" height="6.5" rx="1.2"/></svg>
+          <span>Dashboard</span>
+        </button>
+        <button type="button" data-section="items">
+          <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2.5 6.5 10 2.5l7.5 4v7L10 17.5l-7.5-4v-7Z"/><path d="M2.5 6.5 10 10.5l7.5-4"/><path d="M10 10.5v7"/></svg>
+          <span>Items</span>
+        </button>
+        <button type="button" data-section="manage">
+          <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M10 3v14M3 10h14"/></svg>
+          <span>Manage Stock</span>
+        </button>
+        <button type="button" data-section="outofstock">
+          <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="10" cy="10" r="7.5"/><path d="M6.5 6.5l7 7M13.5 6.5l-7 7"/></svg>
+          <span>Sold Out</span>
+        </button>
+        <button type="button" data-section="update">
+          <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12.5 3.5l4 4L7 17H3v-4l9.5-9.5Z"/></svg>
+          <span>Update Item</span>
+        </button>
+        <button type="button" data-section="reports">
+          <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 17V9M10 17V3M16 17v-6"/></svg>
+          <span>Reports</span>
+        </button>
+        <button type="button" data-section="backup">
+          <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M10 2.5v10M10 12.5 6.5 9M10 12.5 13.5 9"/><path d="M3.5 13v2.5A1.5 1.5 0 0 0 5 17h10a1.5 1.5 0 0 0 1.5-1.5V13"/></svg>
+          <span>Backup &amp; Restore</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-foot">
+        <div class="barcode" aria-hidden="true"></div>
+        <div class="sidebar-user">
+          <span class="sidebar-user-avatar" id="sidebar-user-avatar">?</span>
+          <div class="sidebar-user-info">
+            <span class="sidebar-user-name" id="sidebar-user-name">Loading&hellip;</span>
+            <button type="button" class="sidebar-logout" id="logout-button">Log out</button>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="main-col">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Overview</p>
+          <h1 class="page-title" id="page-title">Dashboard</h1>
+        </div>
+        <div style="display:flex;gap:0.6rem;align-items:center;">
+          <button type="button" id="theme-toggle" class="ghost-button" title="Toggle dark mode">
+            <svg id="theme-icon-dark" viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M17 11.5A7 7 0 0 1 8.5 3 7 7 0 1 0 17 11.5Z"/></svg>
+            <span id="theme-toggle-label">Dark mode</span>
+          </button>
+          <button type="button" id="refresh-all" class="ghost-button" title="Refresh data">
+            <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M16.5 10a6.5 6.5 0 1 1-1.94-4.64M16.5 3.5v4h-4"/></svg>
+            Refresh
+          </button>
+        </div>
+      </header>
+
+      <main>
+        <section id="dashboard" class="panel active">
+          <div class="hero panel-block">
+            <div class="hero-copy">
+              <span class="hero-tag">Welcome back</span>
+              <h2>Everything on the shelf, accounted for.</h2>
+              <p>Track items, receive shipments, issue stock, and pull reports without leaving this screen.</p>
+            </div>
+            <div class="hero-buttons">
+              <button type="button" data-section="items" class="btn-primary">View items</button>
+              <button type="button" data-section="manage" class="btn-secondary">Add inventory</button>
+            </div>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-top">
+                <span class="stat-title">Total items</span>
+                <span class="stat-icon" aria-hidden="true">&#9670;</span>
+              </div>
+              <strong id="dashboard-total-items">0</strong>
+              <div class="stat-strip"></div>
+            </div>
+            <div class="stat-card warn">
+              <div class="stat-top">
+                <span class="stat-title">Low stock items</span>
+                <span class="stat-icon" aria-hidden="true">&#9650;</span>
+              </div>
+              <strong id="dashboard-low-stock">0</strong>
+              <div class="stat-strip"></div>
+            </div>
+            <div class="stat-card danger">
+              <div class="stat-top">
+                <span class="stat-title">Out of stock</span>
+                <span class="stat-icon" aria-hidden="true">&#10006;</span>
+              </div>
+              <strong id="dashboard-out-of-stock">0</strong>
+              <div class="stat-strip"></div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-top">
+                <span class="stat-title">Transactions logged</span>
+                <span class="stat-icon" aria-hidden="true">&#8776;</span>
+              </div>
+              <strong id="dashboard-transactions">0</strong>
+              <div class="stat-strip"></div>
+            </div>
+          </div>
+
+          <div class="panel-block">
+            <div class="block-head">
+              <h3>Low stock alerts</h3>
+              <span class="block-sub">Items at or below reorder level</span>
+            </div>
+            <div id="low-stock-alerts" class="alert-list"></div>
+          </div>
+        </section>
+
+        <section id="items" class="panel">
+          <div class="block-head panel-block-head">
+            <div>
+              <h3>All items</h3>
+              <span class="block-sub">Search your catalog and open an item for full detail</span>
+            </div>
+            <button id="refresh-items" class="btn-secondary">Refresh items</button>
+          </div>
+          <div class="items-toolbar panel-block">
+            <input type="search" id="item-search" placeholder="Search by name, SKU, or category" />
+            <div class="legend">
+              <span class="legend-dot in-stock"></span> In stock
+              <span class="legend-dot low-stock"></span> Low stock
+              <span class="legend-dot out-stock"></span> Out of stock
+            </div>
+          </div>
+          <div id="item-grid" class="item-grid panel-block"></div>
+          <div id="item-detail" class="detail-card"></div>
+        </section>
+
+        <section id="manage" class="panel">
+          <div class="block-head panel-block-head">
+            <div>
+              <h3>Manage stock</h3>
+              <span class="block-sub">Add new products to your catalog, or record stock moving in and out</span>
+            </div>
+          </div>
+          <div class="flow-note panel-block">
+            <span class="flow-step"><strong>1. Add item</strong> — put it in your catalog once</span>
+            <span class="flow-arrow">&#8594;</span>
+            <span class="flow-step"><strong>2. Stock in</strong> — when a purchase or delivery arrives</span>
+            <span class="flow-arrow">&#8594;</span>
+            <span class="flow-step"><strong>3. Stock out</strong> — when it's sold or handed out</span>
+          </div>
+          <div class="form-grid">
+            <div class="card">
+              <h3 class="card-title">Add new item</h3>
+              <form id="item-form">
+                <label>Product picture
+                  <div class="image-upload" id="image-upload-zone">
+                    <img id="image-preview" alt="" hidden />
+                    <span id="image-upload-placeholder"><i class="upload-icon">&#128247;</i> Click to add a picture (optional)</span>
+                    <input type="file" name="imageFile" id="item-image-input" accept="image/*" />
+                  </div>
+                </label>
+                <label>SKU<input name="sku" placeholder="e.g. P001" required /></label>
+                <label>Name<input name="name" placeholder="e.g. Widget" required /></label>
+                <label>Category<input name="category" placeholder="e.g. Tools" /></label>
+                <label>Unit<input name="unit" value="pcs" /></label>
+                <label>Unit cost<input name="unitCost" type="number" step="0.01" min="0" placeholder="0.00" /></label>
+                <label>Quantity<input name="quantity" type="number" min="0" placeholder="0" /></label>
+                <button type="submit" class="btn-primary full">Save item</button>
+              </form>
+              <div id="item-form-message" class="message" role="status"></div>
+            </div>
+
+            <div class="card">
+              <h3 class="card-title">Move stock</h3>
+              <p class="card-help">Choose a product, then say whether stock is coming in (a purchase or delivery you received) or going out (sold or issued to someone).</p>
+              <form id="stock-form">
+                <label>Product
+                  <select name="sku" id="stock-sku-select" required>
+                    <option value="">Select a product&hellip;</option>
+                  </select>
+                </label>
+                <div id="stock-current-info" class="stock-current-info" hidden>
+                  Currently in stock: <strong id="stock-current-qty">0</strong> <span id="stock-current-unit"></span>
+                </div>
+                <label>Quantity<input name="qty" type="number" min="1" required /></label>
+                <div id="stock-preview" class="stock-preview" hidden></div>
+                <label id="party-label">Customer / Vendor name<input name="party" id="party-input" placeholder="e.g. Ali Traders" /></label>
+                <label>Reference<input name="reference" placeholder="e.g. PURCHASE-101" /></label>
+                <label>Note<input name="note" placeholder="Optional note" /></label>
+                <div class="button-row">
+                  <button type="button" id="stock-in" class="btn-primary">
+                    <i class="dir-icon">&#8595;</i> Stock in (received)
+                  </button>
+                  <button type="button" id="stock-out" class="btn-danger">
+                    <i class="dir-icon">&#8593;</i> Stock out (sold / issued)
+                  </button>
+                </div>
+              </form>
+              <div id="stock-form-message" class="message" role="status"></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="outofstock" class="panel">
+          <div class="block-head panel-block-head">
+            <div>
+              <h3>Sold out &amp; out-of-stock items</h3>
+              <span class="block-sub">Everything at zero quantity — restock these from Manage Stock</span>
+            </div>
+            <button id="refresh-outofstock" class="btn-secondary">Refresh</button>
+          </div>
+          <div id="outofstock-grid" class="item-grid panel-block"></div>
+
+          <div class="panel-block">
+            <div class="block-head">
+              <h3>Recent sales</h3>
+              <span class="block-sub">Latest stock-out transactions across all items</span>
+            </div>
+            <div id="recent-sales-list" class="alert-list"></div>
+          </div>
+        </section>
+
+        <section id="update" class="panel">
+          <div class="block-head panel-block-head">
+            <div>
+              <h3>Update an item</h3>
+              <span class="block-sub">Select a product to edit its details, picture, or quantity</span>
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="card">
+              <h3 class="card-title">Choose item</h3>
+              <label>Product
+                <select id="update-sku-select">
+                  <option value="">Select a product&hellip;</option>
+                </select>
+              </label>
+              <div id="update-form-wrap" hidden>
+                <form id="update-form">
+                  <label>Product picture
+                    <div class="image-upload" id="update-image-upload-zone">
+                      <img id="update-image-preview" alt="" hidden />
+                      <span id="update-image-upload-placeholder"><i class="upload-icon">&#128247;</i> Click to change picture</span>
+                      <input type="file" id="update-image-input" accept="image/*" />
+                    </div>
+                  </label>
+                  <label>SKU<input name="sku" id="update-sku" disabled /></label>
+                  <label>Name<input name="name" id="update-name" required /></label>
+                  <label>Category<input name="category" id="update-category" /></label>
+                  <label>Unit<input name="unit" id="update-unit" /></label>
+                  <label>Unit cost<input name="unitCost" id="update-cost" type="number" step="0.01" min="0" /></label>
+                  <label>Quantity<input name="quantity" id="update-quantity" type="number" min="0" /></label>
+                  <button type="submit" class="btn-primary full">Update item</button>
+                </form>
+                <div id="update-form-message" class="message" role="status"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="reports" class="panel">
+          <div class="block-head panel-block-head">
+            <div>
+              <h3>Reports</h3>
+              <span class="block-sub">Generate inventory, transaction, and low-stock summaries</span>
+            </div>
+          </div>
+          <div class="report-controls panel-block">
+            <label>Type
+              <select id="report-type">
+                <option value="inventory">Inventory</option>
+                <option value="transactions">Transactions</option>
+                <option value="low-stock">Low stock</option>
+              </select>
+            </label>
+            <label>From<input id="report-from" type="date" /></label>
+            <label>To<input id="report-to" type="date" /></label>
+            <button id="run-report" class="btn-primary">Run report</button>
+          </div>
+          <div class="report-export-row panel-block" id="report-export-row" hidden>
+            <button id="export-csv" class="btn-secondary">Download as Excel (CSV)</button>
+            <button id="export-pdf" class="btn-secondary">Download as PDF</button>
+          </div>
+          <div id="report-output"></div>
+        </section>
+
+        <section id="backup" class="panel">
+          <div class="block-head panel-block-head">
+            <div>
+              <h3>Backup &amp; restore</h3>
+              <span class="block-sub">A backup is taken automatically every day. You can also back up or restore manually.</span>
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="card">
+              <h3 class="card-title">Export backup</h3>
+              <p class="card-help">Download all your items and transactions as one file. Keep it somewhere safe.</p>
+              <button id="export-backup" class="btn-primary full">Download backup file</button>
+            </div>
+            <div class="card">
+              <h3 class="card-title">Restore from backup</h3>
+              <p class="card-help">Choose a previously downloaded backup file to restore. This replaces your current data.</p>
+              <input type="file" id="restore-file-input" accept="application/json" />
+              <button id="restore-backup" class="btn-danger full" style="margin-top:0.9rem;">Restore this file</button>
+              <div id="restore-message" class="message" role="status"></div>
+            </div>
+          </div>
+          <div class="panel-block">
+            <div class="block-head">
+              <h3>Automatic daily backups</h3>
+              <span class="block-sub">Stored on this computer in the <span class="mono">backups/</span> folder</span>
+            </div>
+            <div id="backup-list" class="alert-list"></div>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <span>Stockroom &middot; built for inventory and stock management.</span>
+      </footer>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
