@@ -1,0 +1,11 @@
+{
+  "name": "stockroom-inventory",
+  "version": "1.0.0",
+  "description": "Inventory and stock management system with a CLI and a zero-dependency web dashboard.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "cli": "node inventory.js"
+  },
+  "license": "MIT"
+}

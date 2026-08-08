@@ -1,0 +1,11 @@
+# Local inventory database file
+inventory-db.json
+
+# Local user accounts
+users.json
+
+# Automatic daily backups
+backups/
+
+# Node modules if added later
+node_modules/

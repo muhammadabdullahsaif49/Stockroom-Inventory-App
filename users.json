@@ -1,0 +1,10 @@
+{
+  "users": [
+    {
+      "email": "ahmad@gmail.com",
+      "salt": "5da4ef6681e4e24510421b066f3808ff",
+      "passwordHash": "c43a2a1b4370b9e3dfee752fb8d44b5987d759feeb46679990cd6b56a0c089bf1a86e9bf7e42e385746f504e8a16a1e89d0f817859adf71969be75d2fde69a36",
+      "createdAt": "2026-08-08T18:13:26.488Z"
+    }
+  ]
+}
